@@ -550,6 +550,10 @@ with tab_calc:
             file_name=f"对开爬坡计算报告_{file_label}.md",
             mime="text/markdown",
         )
+        st.caption(
+            "💡 导入飞书：点击「上传及导入 → 导入为在线文档 → "
+            "选择 Markdown → 选择下载的 .md 文件」，公式即可正确渲染。"
+        )
 
     else:
         st.info("👈 在左侧设置参数后，点击「🚀 开始计算」按钮")
