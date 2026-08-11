@@ -264,6 +264,127 @@ with st.sidebar:
 
     st.divider()
 
+    # ---- 轮胎参数 ----
+    st.subheader("🛞 轮胎参数")
+    col_b, col_c, col_d = st.columns(3)
+    with col_b:
+        tire_width = st.number_input(
+            "胎宽 (mm)", min_value=0.0, max_value=500.0, step=5.0,
+            key="tire_width", on_change=on_param_change,
+        )
+    with col_c:
+        aspect_ratio = st.number_input(
+            "扁平比", min_value=0.0, max_value=100.0, step=5.0,
+            key="aspect_ratio", on_change=on_param_change,
+        )
+    with col_d:
+        rim_diameter = st.number_input(
+            "轮辋直径 (inch)", min_value=0.0, max_value=30.0, step=1.0,
+            key="rim_diameter", on_change=on_param_change,
+        )
+
+    # ---- 质量与质心 ----
+    st.subheader("⚖ 质量与质心")
+    col_e, col_f = st.columns(2)
+    with col_e:
+        mass = st.number_input(
+            "总质量 (kg)", min_value=0.0, max_value=10000.0, step=10.0,
+            key="mass", on_change=on_param_change,
+        )
+    with col_f:
+        cg_height = st.number_input(
+            "质心高度 h (mm)", min_value=0.0, max_value=2000.0, step=1.0,
+            key="cg_height", on_change=on_param_change,
+        )
+    col_g, col_h = st.columns(2)
+    with col_g:
+        cg_to_front = st.number_input(
+            "质心-前轴距 a (mm)", min_value=0.0, max_value=5000.0, step=1.0,
+            key="cg_to_front", on_change=on_param_change,
+        )
+    with col_h:
+        wheelbase = st.number_input(
+            "轴距 L (mm)", min_value=0.0, max_value=6000.0, step=10.0,
+            key="wheelbase", on_change=on_param_change,
+        )
+
+    # ---- 动力系统 ----
+    st.subheader("⚡ 动力系统")
+    col_i, col_j = st.columns(2)
+    with col_i:
+        rear_motor = st.number_input(
+            "后电机最大扭矩 (Nm)", min_value=0.0, max_value=20000.0, step=50.0,
+            key="rear_motor", on_change=on_param_change,
+        )
+    with col_j:
+        front_motor = st.number_input(
+            "前电机最大扭矩 (Nm)", min_value=0.0, max_value=20000.0, step=50.0,
+            key="front_motor", on_change=on_param_change,
+        )
+    col_k, col_l = st.columns(2)
+    with col_k:
+        rear_protection = st.number_input(
+            "后轴保护扭矩 (Nm)", min_value=0.0, max_value=20000.0, step=50.0,
+            key="rear_protection", on_change=on_param_change,
+        )
+    with col_l:
+        front_protection = st.number_input(
+            "前轴保护扭矩 (Nm)", min_value=0.0, max_value=20000.0, step=50.0,
+            key="front_protection", on_change=on_param_change,
+        )
+    col_m, col_n = st.columns(2)
+    with col_m:
+        rear_elsd = st.number_input(
+            "后eLSD容量 (Nm)", min_value=0.0, max_value=5000.0, step=50.0,
+            key="rear_elsd", on_change=on_param_change,
+        )
+    with col_n:
+        front_elsd = st.number_input(
+            "前eLSD容量 (Nm)", min_value=0.0, max_value=5000.0, step=50.0,
+            key="front_elsd", on_change=on_param_change,
+        )
+
+    cooperative = st.selectbox(
+        "eLSD + BTC 协同控制",
+        ["N", "Y"],
+        key="cooperative",
+        on_change=on_param_change,
+        help="是否启用 BTC 与 eLSD 协同控制模式",
+    )
+
+    # ---- 路面条件 ----
+    st.subheader("🛣 路面条件")
+    col_p, col_q, col_r = st.columns(3)
+    with col_p:
+        low_mu = st.number_input(
+            "低附系数 μ_low", min_value=0.0, max_value=2.0, step=0.05, format="%.2f",
+            key="low_mu",
+        )
+    with col_q:
+        high_mu = st.number_input(
+            "高附系数 μ_high", min_value=0.0, max_value=2.0, step=0.05, format="%.2f",
+            key="high_mu",
+        )
+    with col_r:
+        slope = st.number_input(
+            "对开坡度 (%)", min_value=0.0, max_value=100.0, step=1.0,
+            key="slope",
+        )
+
+    # ---- 附着系数参考 ----
+    with st.expander("📖 附着系数参考"):
+        st.markdown("""
+        | 路面类型 | μ 范围 |
+        |---------|--------|
+        | 冰面 | 0.1 |
+        | 雪地胎水泥地 | 0.7~0.9 |
+        | 四季胎水泥地 | 0.8~1.0 |
+        | 湿滑沥青 | 0.7~1.0 |
+        | 干燥沥青 | 0.9~1.2 |
+        """)
+
+    st.divider()
+
     # ---- 计算按钮 ----
     calculate_btn = st.button("🚀 开始计算", type="primary", width="stretch")
 
