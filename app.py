@@ -43,14 +43,14 @@ ROAD_KEYS = ["low_mu", "high_mu", "slope"]
 # 全部参数
 PARAM_KEYS = VEHICLE_KEYS + ROAD_KEYS
 
-# 默认值（未选择预设时使用）
+# 默认值（中性值，用户需自行填写）
 DEFAULT_VALUES = {
-    "tire_width": 255.0, "aspect_ratio": 45.0, "rim_diameter": 21.0,
-    "mass": 3065.0, "cg_height": 790.0, "cg_to_front": 1618.0, "wheelbase": 3080.0,
-    "rear_motor": 2100.0, "front_motor": 3800.0,
-    "rear_protection": 1480.0, "front_protection": 2588.0,
+    "tire_width": 245.0, "aspect_ratio": 45.0, "rim_diameter": 20.0,
+    "mass": 2000.0, "cg_height": 500.0, "cg_to_front": 1500.0, "wheelbase": 3000.0,
+    "rear_motor": 3000.0, "front_motor": 3000.0,
+    "rear_protection": 2000.0, "front_protection": 2000.0,
     "rear_elsd": 0.0, "front_elsd": 0.0,
-    "cooperative": "N", "low_mu": 0.1, "high_mu": 1.0, "slope": 20.0,
+    "cooperative": "N", "low_mu": 0.1, "high_mu": 0.7, "slope": 15.0,
 }
 
 # session_state 中非数值键
@@ -66,7 +66,9 @@ META_KEYS = [
 # 工具函数
 # ============================================================
 def load_presets_file():
-    """从文件读取预设"""
+    """从文件读取预设，文件不存在时返回空列表"""
+    if not PRESET_PATH.exists():
+        return []
     with open(PRESET_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -221,7 +223,7 @@ with st.sidebar:
         st.info("📝 当前为自定义参数")
 
     # 保存为预设按钮（仅在本地可写时显示）
-    if os.access(PRESET_PATH, os.W_OK):
+    if os.access(PRESET_PATH.parent, os.W_OK):
         col_save1, col_save2 = st.columns([1, 1])
         with col_save1:
             if st.button("💾 保存为预设", width="stretch", key="btn_show_save"):
